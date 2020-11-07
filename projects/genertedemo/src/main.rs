@@ -11,7 +11,7 @@ fn mapdemo() {
     s.insert(String::from("one"), 10);
     s.insert(String::from("two"), 11);
     for (_, value) in &mut s {
-        *value += 1;
+        *value = *value + 1;
     }
     println!("{:#?}", s);
 
@@ -21,7 +21,6 @@ fn mapdemo() {
     let mut s: HashMap<_, _> = teams.iter().zip(scores.iter()).collect();
     for (key, value) in &mut s {}
     println!("{:#?}", s);
-    println!("{:#?}", scores);
 }
 
 fn stringdemo() {
