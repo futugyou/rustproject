@@ -51,6 +51,6 @@ mod tests {
         tracker.set_value((2));
         tracker.set_value((2));
         tracker.set_value((2));
-        assert_eq!(2, messager.send_messages.borrow().len());
+        assert_eq!(3, messager.send_messages.borrow().len());
     }
 }
