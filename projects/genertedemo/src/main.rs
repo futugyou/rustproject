@@ -57,6 +57,9 @@ fn vecdemo() {
         *i = *i + 2;
     }
     println!("{:#?}", v);
+    let c = vec![1, 3, 4, 5];
+    c.len();
+    c.len();
 }
 
 fn user(_v: u32) {}
