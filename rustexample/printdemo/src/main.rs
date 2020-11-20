@@ -11,6 +11,7 @@ fn main() {
 
     let point = Point2d { x: 90, y: 87 };
     println!("display: {}", point);
+    println!("display: {}", point.to_string());
     println!("debug: {:?}", point);
     println!("binary: {:b}", point);
 
