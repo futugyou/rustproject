@@ -21,7 +21,29 @@ fn main() {
     let _tup1: PhantomTuple<char, f32> = PhantomTuple('a', PhantomData);
     let _tup2: PhantomTuple<char, f64> = PhantomTuple('a', PhantomData);
     //println!("{}", _tup1 == _tup2);
+
+    let point = Point { x: 0, y: 0 };
+    let _copy1 = {
+        let Point { x: ref ref_x, y: _ } = point;
+        *ref_x
+    };
+    let _copy2 = {
+        let Point { x: ref_x, y: _ } = point;
+        ref_x
+    };
+    println!("{}{}", _copy1, _copy2);
+
+    let mut point2 = point;
+    {
+        let Point {
+            x: _,
+            y: ref mut mut_y,
+        } = point2;
+        *mut_y = 2;
+    }
+    println!("{:?}{:?}", point, point2);
 }
+
 mod lib;
 use crate::lib::*;
 
@@ -74,4 +96,10 @@ struct PhantomTuple<A, B>(A, PhantomData<B>);
 struct PhantomStruct<A, B> {
     first: A,
     phantom: PhantomData<B>,
+}
+
+#[derive(Clone, Copy, Debug)]
+struct Point {
+    x: i32,
+    y: i32,
 }
