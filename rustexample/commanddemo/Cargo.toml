@@ -1,0 +1,12 @@
+[package]
+name = "commanddemo"
+version = "0.1.0"
+authors = ["futugyousuzu <17871902+futugyu@users.noreply.github.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+structopt = "0.3.20"
+anyhow = "1.0"
+indicatif = "0.15.0"
