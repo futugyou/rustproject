@@ -3,12 +3,34 @@
     windows_subsystem = "windows"
 )]
 
+use tauri::Manager;
 use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu, WindowBuilder};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
+}
+
+#[tauri::command]
+async fn close_splashscreen(window: tauri::Window) {
+    // Close splashscreen
+    if let Some(splashscreen) = window.get_window("splashscreen") {
+        splashscreen.close().unwrap();
+    }
+    // Show main window
+    window.get_window("main").unwrap().show().unwrap();
+}
+
+#[tauri::command]
+async fn open_docs(handle: tauri::AppHandle) {
+    let docs_window = tauri::WindowBuilder::new(
+        &handle,
+        "external", /* the unique window label */
+        tauri::WindowUrl::External("https://tauri.app/".parse().unwrap()),
+    )
+    .build()
+    .unwrap();
 }
 
 fn main() {
@@ -63,17 +85,15 @@ fn main() {
         //     )
         //     //.menu(menu)
         //     .build();
-
         //     let local_window = tauri::WindowBuilder::new(
         //         app,
         //         "external",
         //         tauri::WindowUrl::External("https://tauri.app/".parse().unwrap()),
         //     )
         //     .build();
-
         //     Ok(())
         // })
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, close_splashscreen])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
