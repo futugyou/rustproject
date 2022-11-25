@@ -30,6 +30,13 @@ fn main() {
         //     ]),
         // ))]))
         .menu(menu)
+        .on_menu_event(|event| match event.menu_item_id() {
+            "quit" => {
+                std::process::exit(0);
+            }
+            "close" => event.window().close().unwrap(),
+            _ => {}
+        })
         .on_window_event(|event| match event.event() {
             tauri::WindowEvent::CloseRequested { api, .. } => {
                 api.prevent_close();
