@@ -18,3 +18,8 @@ cargo create-tauri-app
 npm install
 npm run tauri dev
 ```
+
+### pulgin
+```
+tauri plugin init --name awesome
+```
