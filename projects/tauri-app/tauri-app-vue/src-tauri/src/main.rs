@@ -56,13 +56,21 @@ fn main() {
             _ => {}
         })
         // .setup(|app| {
-        //     WindowBuilder::new(
+        //     let docs_window = WindowBuilder::new(
         //         app,
         //         "main-window".to_string(),
         //         tauri::WindowUrl::App("index.html".into()),
         //     )
-        //     .menu(menu)
-        //     .build()?;
+        //     //.menu(menu)
+        //     .build();
+
+        //     let local_window = tauri::WindowBuilder::new(
+        //         app,
+        //         "external",
+        //         tauri::WindowUrl::External("https://tauri.app/".parse().unwrap()),
+        //     )
+        //     .build();
+
         //     Ok(())
         // })
         .invoke_handler(tauri::generate_handler![greet])
