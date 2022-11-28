@@ -23,3 +23,8 @@ npm run tauri dev
 ```
 tauri plugin init --name awesome
 ```
+
+###
+```
+https://cdn.modb.pro/db/561373
+```
