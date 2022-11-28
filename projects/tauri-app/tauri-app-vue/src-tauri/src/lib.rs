@@ -5,7 +5,6 @@
 
 mod cmd;
 
-use serde::Serialize;
 use tauri::{window::WindowBuilder, App, AppHandle, RunEvent, WindowUrl};
 
 pub type SetupHook = Box<dyn FnOnce(&mut App) -> Result<(), Box<dyn std::error::Error>> + Send>;
@@ -47,7 +46,7 @@ impl AppBuilder {
                 (setup)(app)?;
             }
 
-            let mut window_builder = WindowBuilder::new(app, "main", WindowUrl::default())
+            let mut window_builder = WindowBuilder::new(app, "main1", WindowUrl::default())
                 .user_agent("tauri api")
                 .title("tauri api validation")
                 .inner_size(1000., 1000.)
@@ -66,7 +65,31 @@ impl AppBuilder {
                 let _ = window_shadows::set_shadow(&window, true);
                 let _ = window_vibrancy::apply_blur(&window, Some((0, 0, 0, 0)));
             }
+
+            #[cfg(debug_assertions)]
+            window.open_devtools();
+
+            // skip this for now
+
             Ok(())
         });
+
+        #[allow(unused_mut)]
+        let mut app = builder
+            .invoke_handler(tauri::generate_handler![
+                cmd::greet,
+                cmd::close_splashscreen,
+            ])
+            .build(tauri::generate_context!())
+            .expect("error while building tauri application");
+
+        app.run(move |app_handler, e| {
+            if let RunEvent::ExitRequested { api, .. } = &e {
+                api.prevent_exit();
+            }
+            if let Some(on_event) = &mut on_event {
+                (on_event)(app_handler, e);
+            }
+        })
     }
 }

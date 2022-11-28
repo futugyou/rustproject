@@ -53,21 +53,6 @@
     "updater": {
       "active": false
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 600,
-        "resizable": true,
-        "title": "tauri-app-vue",
-        "width": 800
-      },
-      {
-        "width": 400,
-        "height": 200,
-        "decorations": false,
-        "url": "splashscreen.html",
-        "label": "splashscreen"
-      }
-    ]
+    "windows": []
   }
 }
