@@ -53,6 +53,11 @@
     "updater": {
       "active": false
     },
-    "windows": []
+    "windows": [],
+    "systemTray": {
+      "iconPath": "icons/32x32.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
+    }
   }
 }
