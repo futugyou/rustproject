@@ -40,7 +40,8 @@ impl AppBuilder {
     pub fn run(self) {
         let setup = self.setup;
         let mut on_event = self.on_event;
-
+        
+        #[allow(unused_mut)]
         let mut builder = tauri::Builder::default().setup(move |app| {
             if let Some(setup) = setup {
                 (setup)(app)?;

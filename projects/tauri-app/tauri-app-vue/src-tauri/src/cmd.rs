@@ -16,8 +16,9 @@ pub async fn close_splashscreen(window: tauri::Window) {
 }
 
 #[tauri::command]
+#[allow(unused)]
 pub async fn open_docs(handle: tauri::AppHandle) {
-    let docs_window = tauri::WindowBuilder::new(
+    let _docs_window = tauri::WindowBuilder::new(
         &handle,
         "external", /* the unique window label */
         tauri::WindowUrl::External("https://tauri.app/".parse().unwrap()),
