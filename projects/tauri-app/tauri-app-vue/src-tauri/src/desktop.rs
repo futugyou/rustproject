@@ -6,7 +6,7 @@ use tauri::{
 pub fn main() {
     tauri_app_vue::AppBuilder::new()
         .setup(|app| {
-            create_item(app)?;
+            create_tray(app)?;
             Ok(())
         })
         .run()
@@ -78,7 +78,7 @@ pub fn main() {
     //     .expect("error while running tauri application");
 }
 
-fn create_item(app: &tauri::App) -> tauri::Result<()> {
+fn create_tray(app: &tauri::App) -> tauri::Result<()> {
     let mut tray_menu1 = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("toggle", "Toggle"))
         .add_item(CustomMenuItem::new("new", "New window"))
@@ -151,26 +151,29 @@ fn create_item(app: &tauri::App) -> tauri::Result<()> {
                             #[cfg(target_os = "macos")]
                             tray_handle.set_title("Tauri").unwrap();
                         }
-                        //   "icon_1" => {
-                        //     #[cfg(target_os = "macos")]
-                        //     tray_handle.set_icon_as_template(true).unwrap();
+                        "icon_1" => {
+                            #[cfg(target_os = "macos")]
+                            tray_handle.set_icon_as_template(true).unwrap();
 
-                        //     tray_handle
-                        //       .set_icon(tauri::Icon::Raw(
-                        //         include_bytes!("../../../.icons/tray_icon_with_transparency.png").to_vec(),
-                        //       ))
-                        //       .unwrap();
-                        //   }
-                        //   "icon_2" => {
-                        //     #[cfg(target_os = "macos")]
-                        //     tray_handle.set_icon_as_template(true).unwrap();
+                            tray_handle
+                                .set_icon(tauri::Icon::Raw(
+                                    include_bytes!(
+                                        "../icons/tray_icon_with_transparency.ico"
+                                    )
+                                    .to_vec(),
+                                ))
+                                .unwrap();
+                        }
+                        "icon_2" => {
+                            #[cfg(target_os = "macos")]
+                            tray_handle.set_icon_as_template(true).unwrap();
 
-                        //     tray_handle
-                        //       .set_icon(tauri::Icon::Raw(
-                        //         include_bytes!("../../../.icons/icon.ico").to_vec(),
-                        //       ))
-                        //       .unwrap();
-                        //   }
+                            tray_handle
+                                .set_icon(tauri::Icon::Raw(
+                                    include_bytes!("../icons/icon.ico").to_vec(),
+                                ))
+                                .unwrap();
+                        }
                         "switch_menu" => {
                             let flag = is_menu1.load(Ordering::Relaxed);
                             tray_handle

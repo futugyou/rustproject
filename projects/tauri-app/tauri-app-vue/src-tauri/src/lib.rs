@@ -46,7 +46,7 @@ impl AppBuilder {
                 (setup)(app)?;
             }
 
-            let mut window_builder = WindowBuilder::new(app, "main1", WindowUrl::default())
+            let mut window_builder = WindowBuilder::new(app, "main", WindowUrl::default())
                 .user_agent("tauri api")
                 .title("tauri api validation")
                 .inner_size(1000., 1000.)
