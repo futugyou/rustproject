@@ -28,7 +28,6 @@ function hideApp() {
     <div class="card">
         <button class="btn" id="show" title="Hides and shows the app after 2 seconds" @click="showApp()">Show</button>
         <button class="btn" id="hide" @click="hideApp()">Hide</button>
+        <p>{{ greetMsg }}</p>
     </div>
-
-    <p>{{ greetMsg }}</p>
 </template>

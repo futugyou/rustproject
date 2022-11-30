@@ -7,26 +7,10 @@ import Cli from "./components/Cli.vue";
 </script>
 
 <template>
+  <h1>Welcome to Tauri!</h1>
   <div class="container">
-    <h1>Welcome to Tauri!</h1>
-    <li>
-      <Greet />
-    </li>
-    <li>
-      <Show />
-    </li>
-    <li>
-      <Cli />
-    </li>
+    <Greet />
+    <Show />
+    <Cli />
   </div>
 </template>
-
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-</style>

@@ -11,6 +11,29 @@
     "version": "0.0.0"
   },
   "tauri": {
+    "cli": {
+      "description": "Tauri API example",
+      "args": [
+        {
+          "short": "c",
+          "name": "config",
+          "takesValue": true,
+          "description": "Config path"
+        }
+      ],
+      "subcommands": {
+        "update": {
+          "description": "Updates the app",
+          "args": [
+            {
+              "short": "b",
+              "name": "background",
+              "description": "Update in background"
+            }
+          ]
+        }
+      }
+    },
     "allowlist": {
       "all": true
     },

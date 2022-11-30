@@ -15,7 +15,6 @@ function cliMatches() {
 <template>
     <div class="card">
         <button class="btn" id="cli-matches" @click="cliMatches()">Get matches</button>
+        <p>{{ greetMsg }}</p>
     </div>
-
-    <p>{{ greetMsg }}</p>
 </template>
