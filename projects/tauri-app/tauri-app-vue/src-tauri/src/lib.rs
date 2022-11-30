@@ -6,7 +6,7 @@
 mod cmd;
 
 use tauri::{
-    window::WindowBuilder, App, AppHandle, CustomMenuItem, Menu, MenuEntry, MenuItem, RunEvent,
+    window::WindowBuilder, App, AppHandle, CustomMenuItem, Menu, MenuItem, RunEvent,
     Submenu, WindowUrl,
 };
 
@@ -89,14 +89,6 @@ impl AppBuilder {
 
         #[allow(unused_mut)]
         let mut app = builder
-            .menu(Menu::with_items([MenuEntry::Submenu(Submenu::new(
-                "File",
-                Menu::with_items([
-                    MenuItem::CloseWindow.into(),
-                    #[cfg(targer_os = "macos")]
-                    CustomMenuItem::new("hello", "Hello").into(),
-                ]),
-            ))]))
             .menu(menu)
             .invoke_handler(tauri::generate_handler![
                 cmd::greet,
