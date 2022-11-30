@@ -4,6 +4,7 @@
 import Greet from "./components/Greet.vue";
 import Show from "./components/Show.vue";
 import Cli from "./components/Cli.vue";
+import Clipboard from "./components/Clipboard.vue";
 </script>
 
 <template>
@@ -12,5 +13,6 @@ import Cli from "./components/Cli.vue";
     <Greet />
     <Show />
     <Cli />
+    <Clipboard />
   </div>
 </template>
