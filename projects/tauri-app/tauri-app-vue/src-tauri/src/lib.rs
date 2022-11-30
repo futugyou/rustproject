@@ -38,10 +38,20 @@ impl AppBuilder {
         let quit = CustomMenuItem::new("quit".to_string(), "Quit");
         let close = CustomMenuItem::new("close".to_string(), "Close");
         let submenu = Submenu::new("File", Menu::new().add_item(quit).add_item(close));
+        let submenu2 =  Submenu::new(
+            "File",
+            Menu::with_items([
+                MenuItem::CloseWindow.into(),
+                #[cfg(targer_os = "macos")]
+                CustomMenuItem::new("hello", "Hello").into(),
+            ]),
+        );
         let menu = Menu::new()
             .add_native_item(MenuItem::Copy)
             .add_item(CustomMenuItem::new("hide", "Hide"))
-            .add_submenu(submenu);
+            .add_submenu(submenu)
+            .add_submenu(submenu2)
+            ;
 
         #[allow(unused_mut)]
         let mut builder = tauri::Builder::default().setup(move |app| {
@@ -61,7 +71,7 @@ impl AppBuilder {
                 window_builder = window_builder.decorations(false);
             }
 
-            let window = window_builder.menu(menu).build().unwrap();
+            let window = window_builder.build().unwrap();
 
             #[cfg(target_os = "windows")]
             {
@@ -87,6 +97,7 @@ impl AppBuilder {
                     CustomMenuItem::new("hello", "Hello").into(),
                 ]),
             ))]))
+            .menu(menu)
             .invoke_handler(tauri::generate_handler![
                 cmd::greet,
                 cmd::close_splashscreen,
