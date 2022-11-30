@@ -16,7 +16,7 @@ tauri-build = {version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = {version = "1.2", features = ["api-all", "icon-ico", "icon-png", "system-tray", "wry"] }
+tauri = {version = "1.2", features = ["api-all", "icon-ico", "icon-png", "system-tray", "cli", "wry"] }
 
 [target."cfg(target_os = \"windows\")".dependencies]
 window-vibrancy = "0.3.2"
