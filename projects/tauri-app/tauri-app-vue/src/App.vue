@@ -6,6 +6,7 @@ import Show from "./components/Show.vue";
 import Cli from "./components/Cli.vue";
 import Clipboard from "./components/Clipboard.vue";
 import TauriEvent from "./components/TauriEvent.vue";
+import Dialog from "./components/Dialog.vue";
 </script>
 
 <template>
@@ -16,5 +17,6 @@ import TauriEvent from "./components/TauriEvent.vue";
     <Cli />
     <Clipboard />
     <TauriEvent />
+    <Dialog />
   </div>
 </template>
