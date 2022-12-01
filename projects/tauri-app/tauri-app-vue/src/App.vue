@@ -5,6 +5,7 @@ import Greet from "./components/Greet.vue";
 import Show from "./components/Show.vue";
 import Cli from "./components/Cli.vue";
 import Clipboard from "./components/Clipboard.vue";
+import TauriEvent from "./components/TauriEvent.vue";
 </script>
 
 <template>
@@ -14,5 +15,6 @@ import Clipboard from "./components/Clipboard.vue";
     <Show />
     <Cli />
     <Clipboard />
+    <TauriEvent />
   </div>
 </template>

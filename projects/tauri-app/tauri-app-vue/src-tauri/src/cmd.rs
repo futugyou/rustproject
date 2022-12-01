@@ -1,11 +1,19 @@
-use tauri::Manager;
+use serde::Deserialize;
+use tauri::{command, Manager};
 
-#[tauri::command]
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+pub struct RequestBody {
+    id: i32,
+    name: String,
+}
+
+#[command]
 pub fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-#[tauri::command]
+#[command]
 pub async fn close_splashscreen(window: tauri::Window) {
     // Close splashscreen
     if let Some(splashscreen) = window.get_window("splashscreen") {
@@ -15,7 +23,7 @@ pub async fn close_splashscreen(window: tauri::Window) {
     window.get_window("main").unwrap().show().unwrap();
 }
 
-#[tauri::command]
+#[command]
 #[allow(unused)]
 pub async fn open_docs(handle: tauri::AppHandle) {
     let _docs_window = tauri::WindowBuilder::new(
@@ -25,4 +33,15 @@ pub async fn open_docs(handle: tauri::AppHandle) {
     )
     .build()
     .unwrap();
+}
+
+#[command]
+pub fn log_operation(event: String, payload: Option<String>) {
+    println!("{} {:?}", event, payload);
+}
+
+#[command]
+pub fn perform_request(endpoint: String, body: RequestBody) -> String {
+    println!("{} {:?}", endpoint, body);
+    "message response".into()
 }

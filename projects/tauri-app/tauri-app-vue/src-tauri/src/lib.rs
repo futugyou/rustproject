@@ -5,10 +5,17 @@
 
 mod cmd;
 
+use serde::Serialize;
 use tauri::{
-    window::WindowBuilder, App, AppHandle, CustomMenuItem, Menu, MenuItem, RunEvent,
-    Submenu, WindowUrl,
+    window::WindowBuilder, App, AppHandle, CustomMenuItem, Menu, MenuItem, RunEvent, Submenu,
+    WindowUrl,
 };
+
+#[derive(Clone, Serialize)]
+struct Reply {
+  data: String,
+}
+
 
 pub type SetupHook = Box<dyn FnOnce(&mut App) -> Result<(), Box<dyn std::error::Error>> + Send>;
 pub type OnEvent = Box<dyn FnMut(&AppHandle, RunEvent)>;
@@ -38,7 +45,7 @@ impl AppBuilder {
         let quit = CustomMenuItem::new("quit".to_string(), "Quit");
         let close = CustomMenuItem::new("close".to_string(), "Close");
         let submenu = Submenu::new("File", Menu::new().add_item(quit).add_item(close));
-        let submenu2 =  Submenu::new(
+        let submenu2 = Submenu::new(
             "File",
             Menu::with_items([
                 MenuItem::CloseWindow.into(),
@@ -50,47 +57,62 @@ impl AppBuilder {
             .add_native_item(MenuItem::Copy)
             .add_item(CustomMenuItem::new("hide", "Hide"))
             .add_submenu(submenu)
-            .add_submenu(submenu2)
-            ;
+            .add_submenu(submenu2);
 
         #[allow(unused_mut)]
-        let mut builder = tauri::Builder::default().setup(move |app| {
-            if let Some(setup) = setup {
-                (setup)(app)?;
-            }
+        let mut builder = tauri::Builder::default()
+            .setup(move |app| {
+                if let Some(setup) = setup {
+                    (setup)(app)?;
+                }
 
-            let mut window_builder = WindowBuilder::new(app, "main", WindowUrl::default())
-                .user_agent("tauri api")
-                .title("tauri api validation")
-                .inner_size(1000., 1000.)
-                .min_inner_size(600., 400.);
+                let mut window_builder = WindowBuilder::new(app, "main", WindowUrl::default())
+                    .user_agent("tauri api")
+                    .title("tauri api validation")
+                    .inner_size(1000., 1000.)
+                    .min_inner_size(600., 400.);
 
-            #[cfg(target_os = "windows")]
-            {
-                window_builder = window_builder.transparent(true);
-                window_builder = window_builder.decorations(false);
-            }
+                #[cfg(target_os = "windows")]
+                {
+                    window_builder = window_builder.transparent(true);
+                    window_builder = window_builder.decorations(false);
+                }
 
-            let window = window_builder.build().unwrap();
+                let window = window_builder.build().unwrap();
 
-            #[cfg(target_os = "windows")]
-            {
-                let _ = window_shadows::set_shadow(&window, true);
-                let _ = window_vibrancy::apply_blur(&window, Some((0, 0, 0, 0)));
-            }
+                #[cfg(target_os = "windows")]
+                {
+                    let _ = window_shadows::set_shadow(&window, true);
+                    let _ = window_vibrancy::apply_blur(&window, Some((0, 0, 0, 0)));
+                }
 
-            // #[cfg(debug_assertions)]
-            // window.open_devtools();
+                // #[cfg(debug_assertions)]
+                // window.open_devtools();
 
-            // skip this for now
+                // skip this for now
 
-            Ok(())
-        });
+                Ok(())
+            })
+            .on_page_load(|window, _| {
+                let window_ = window.clone();
+                window.listen("js-event", move |event| {
+                    println!("got js-event with message '{:?}'", event.payload());
+                    let reply = Reply {
+                        data: "something else".to_string(),
+                    };
+
+                    window_
+                        .emit("rust-event", Some(reply))
+                        .expect("failed to emit");
+                });
+            });
 
         #[allow(unused_mut)]
         let mut app = builder
             .menu(menu)
             .invoke_handler(tauri::generate_handler![
+                cmd::perform_request,
+                cmd::log_operation,
                 cmd::greet,
                 cmd::close_splashscreen,
             ])
