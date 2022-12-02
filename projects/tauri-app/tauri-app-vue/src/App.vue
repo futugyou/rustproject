@@ -7,6 +7,7 @@ import Cli from "./components/Cli.vue";
 import Clipboard from "./components/Clipboard.vue";
 import TauriEvent from "./components/TauriEvent.vue";
 import Dialog from "./components/Dialog.vue";
+import Http from "./components/Http.vue";
 </script>
 
 <template>
@@ -18,5 +19,6 @@ import Dialog from "./components/Dialog.vue";
     <Clipboard />
     <TauriEvent />
     <Dialog />
+    <Http />
   </div>
 </template>

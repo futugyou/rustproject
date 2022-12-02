@@ -13,9 +13,8 @@ use tauri::{
 
 #[derive(Clone, Serialize)]
 struct Reply {
-  data: String,
+    data: String,
 }
-
 
 pub type SetupHook = Box<dyn FnOnce(&mut App) -> Result<(), Box<dyn std::error::Error>> + Send>;
 pub type OnEvent = Box<dyn FnMut(&AppHandle, RunEvent)>;
@@ -91,27 +90,29 @@ impl AppBuilder {
 
                 std::thread::spawn(|| {
                     let server = match tiny_http::Server::http("localhost:3003") {
-                      Ok(s) => s,
-                      Err(e) => {
-                        eprintln!("{}", e);
-                        std::process::exit(1);
-                      }
+                        Ok(s) => s,
+                        Err(e) => {
+                            eprintln!("{}", e);
+                            std::process::exit(1);
+                        }
                     };
                     loop {
-                      if let Ok(mut request) = server.recv() {
-                        let mut body = Vec::new();
-                        let _ = request.as_reader().read_to_end(&mut body);
-                        let response = tiny_http::Response::new(
-                          tiny_http::StatusCode(200),
-                          request.headers().to_vec(),
-                          std::io::Cursor::new(body),
-                          request.body_length(),
-                          None,
-                        );
-                        let _ = request.respond(response);
-                      }
+                        if let Ok(mut request) = server.recv() {
+                            let mut body = Vec::new();
+                            let _ = request.as_reader().read_to_end(&mut body);
+                            println!("request_body: {:#?}", body);
+                            let response = tiny_http::Response::new(
+                                tiny_http::StatusCode(200),
+                                request.headers().to_vec(),
+                                std::io::Cursor::new(body),
+                                request.body_length(),
+                                None,
+                            );
+                            let response_body = request.respond(response);
+                            println!("response_body: {:#?}", response_body);
+                        }
                     }
-                  });
+                });
 
                 Ok(())
             })
