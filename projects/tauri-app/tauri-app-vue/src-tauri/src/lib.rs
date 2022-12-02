@@ -89,7 +89,29 @@ impl AppBuilder {
                 // #[cfg(debug_assertions)]
                 // window.open_devtools();
 
-                // skip this for now
+                std::thread::spawn(|| {
+                    let server = match tiny_http::Server::http("localhost:3003") {
+                      Ok(s) => s,
+                      Err(e) => {
+                        eprintln!("{}", e);
+                        std::process::exit(1);
+                      }
+                    };
+                    loop {
+                      if let Ok(mut request) = server.recv() {
+                        let mut body = Vec::new();
+                        let _ = request.as_reader().read_to_end(&mut body);
+                        let response = tiny_http::Response::new(
+                          tiny_http::StatusCode(200),
+                          request.headers().to_vec(),
+                          std::io::Cursor::new(body),
+                          request.body_length(),
+                          None,
+                        );
+                        let _ = request.respond(response);
+                      }
+                    }
+                  });
 
                 Ok(())
             })

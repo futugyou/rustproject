@@ -35,7 +35,10 @@
       }
     },
     "allowlist": {
-      "all": true
+      "all": true,
+      "http": {
+        "scope": ["http://localhost:3003"]
+      }
     },
     "bundle": {
       "active": true,
