@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'Home',
-        component: () => import('../src/components/Greet.vue')
+        component: () => import('../src/components/Welcome.vue')
     },
     {
         path: '/Cli',
@@ -45,6 +45,11 @@ const routes: RouteRecordRaw[] = [
         path: '/Notification',
         name: 'Notification',
         component: () => import('../src/components/Notification.vue')
+    },
+    {
+        path: '/Welcome',
+        name: 'Welcome',
+        component: () => import('../src/components/Welcome.vue')
     },
 ]
 const router = createRouter({

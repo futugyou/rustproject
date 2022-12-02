@@ -7,6 +7,10 @@ interface Menu {
 
 const MenuConfigs: Menu[] = [
     {
+        lable: "Welcome",
+        name: "Welcome"
+    },
+    {
         lable: "Cli",
         name: "Cli"
     },
