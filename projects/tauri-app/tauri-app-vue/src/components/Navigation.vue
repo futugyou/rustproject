@@ -33,6 +33,10 @@ const MenuConfigs: Menu[] = [
     {
         lable: "TauriEvent",
         name: "TauriEvent"
+    },
+    {
+        lable: "Notification",
+        name: "Notification"
     }]
 </script>
 

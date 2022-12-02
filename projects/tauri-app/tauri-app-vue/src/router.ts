@@ -41,6 +41,11 @@ const routes: RouteRecordRaw[] = [
         name: 'TauriEvent',
         component: () => import('../src/components/TauriEvent.vue')
     },
+    {
+        path: '/Notification',
+        name: 'Notification',
+        component: () => import('../src/components/Notification.vue')
+    },
 ]
 const router = createRouter({
     history: createWebHistory("/"),
