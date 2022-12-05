@@ -8,9 +8,15 @@
   },
   "package": {
     "productName": "tauri-app-vue",
-    "version": "0.0.0"
+    "version": "0.2.0"
   },
   "tauri": {
+    "pattern": {
+      "use": "isolation",
+      "options": {
+        "dir": "../isolation-dist/"
+      }
+    },
     "cli": {
       "description": "Tauri API example",
       "args": [
@@ -37,7 +43,9 @@
     "allowlist": {
       "all": true,
       "http": {
-        "scope": ["http://localhost:3003"]
+        "scope": [
+          "http://localhost:3003"
+        ]
       }
     },
     "bundle": {
