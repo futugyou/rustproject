@@ -1,15 +1,28 @@
 use num::Complex;
 
+use std::env;
 use std::str::FromStr;
 
 fn main() {
     println!("Hello, world!");
-}
-
-fn square_loop(mut x: f64) {
-    loop {
-        x = x * x
+    let args: Vec<String> = env::args().collect();
+    
+    println!("{:?}", args);
+    if args.len() != 5 {
+        eprintln!(
+            "Exapmle: {} mandel.png 1000x750 -1.20,0.35 -1,2.00",
+            args[0]
+        );
+        std::process::exit(1);
     }
+
+    let bounds = parse_pair(&args[2], 'x').expect("error parsing image dimensions");
+    let upper_left = parse_complex(&args[3]).expect("error parsing upper left cormer point");
+    let lower_right = parse_complex(&args[4]).expect("error parsing lower right cormer point");
+
+    let mut pixels = vec![0; bounds.0 * bounds.1];
+    render(&mut pixels, bounds, upper_left, lower_right);
+    write_image(&args[1], &pixels, bounds).expect("error writting png file");
 }
 
 fn escape_time(c: Complex<f64>, limit: usize) -> Option<usize> {
@@ -106,4 +119,19 @@ fn render(
             };
         }
     }
+}
+
+use image::png::PNGEncoder;
+use image::ColorType;
+use std::fs::File;
+
+fn write_image(
+    filename: &str,
+    pixels: &[u8],
+    bounds: (usize, usize),
+) -> Result<(), std::io::Error> {
+    let output = File::create(filename)?;
+    let encoder = PNGEncoder::new(output);
+    encoder.encode(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+    Ok(())
 }
